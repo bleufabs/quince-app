@@ -1,0 +1,141 @@
+/*CSS styles for the index.html page. */
+/* Global Reset & Font */
+body {
+  margin: 0;
+  font-family: 'Georgia', serif;
+  background-color: #fdfcfb;
+  color: #2e3d2e;
+  background-image: url('../images/florall1.jpg'); /* Add one of your floral images here */
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
+/* Navbar */
+nav {
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem 2rem;
+  background-color: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  position: sticky;
+  top: 0;
+}
+nav a {
+  margin-left: 1rem;
+  text-decoration: none;
+  color: #6c8b6f;
+  font-weight: bold;
+}
+
+nav a:hover {
+  color: #d4af37;
+}
+
+/* Header */
+header {
+  text-align: center;
+  padding: 4rem 2rem;
+  background: rgba(255, 255, 255, 0.85);
+  margin: 2rem;
+  border-radius: 1rem;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+header h1 {
+  font-size: 2.5rem;
+  color: #6c8b6f;
+  font-family: 'Great Vibes', cursive;
+}
+
+header p {
+  font-size: 1.2rem;
+}
+
+/* Countdown Timer */
+.timer {
+  font-size: 1.5rem;
+  color: #d4af37;
+  margin-top: 1rem;
+}
+
+/* Footer */
+footer {
+  text-align: center;
+  padding: 1rem;
+  font-size: 0.9rem;
+  background-color: rgba(255, 255, 255, 0.8);
+  margin-top: 2rem;
+}
+
+/* rsvp-form */
+
+h2 {
+    font-family: 'Great Vibes', cursive;
+    font-size: 2.5rem;
+    color: #567457;
+    margin-bottom: 0.2rem;
+}
+.rsvp-container {
+  display: flex;
+  justify-content: center;
+  padding: 2rem;
+  background: url("https://i.imgur.com/QeEVo3e.png") no-repeat center center;
+  background-size: cover;
+  min-height: 100vh;
+}
+
+.rsvp-form-wrapper {
+  background-color: rgba(255, 255, 255, 0.95);
+  border: 3px solid #d4af37;
+  border-radius: 1rem;
+  padding: 2rem;
+  max-width: 500px;
+  width: 100%;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  backdrop-filter: blur(4px);
+}
+
+.rsvp-form-wrapper p {
+  text-align: center;
+  font-size: 1rem;
+  color: #4a5a46;
+  margin-bottom: 1.5rem;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+form label {
+  margin: 0.5rem 0 0.2rem;
+  font-weight: 500;
+  color: #3c503c;
+}
+
+form input,
+form select {
+  padding: 0.6rem;
+  border: 1px solid #b5cbbb;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  background-color: #f7fff8;
+}
+
+form button {
+  margin-top: 1.5rem;
+  padding: 0.75rem;
+  background-color: #6c8b6f;
+  color: white;
+  font-weight: bold;
+  border: none;
+  border-radius: 0.75rem;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+form button:hover {
+  background-color: #567457;
+}

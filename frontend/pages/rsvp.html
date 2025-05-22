@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>RSVP | Ameera's Quince</title>
+  <link rel="stylesheet" href="../styles/styles.css">
+</head>
+<body>
+    <!-- Navbar -->
+        <nav>
+            <div><strong>Ameera's Quince</strong></div>
+            <div>
+            <a href="index.html">Home</a>
+            <a href="rsvp.html">RSVP</a>
+            <a href="photos.html">Share you Photoes</a>
+            <!-- You can add "Photos" link here later -->
+            </div>
+        </nav>
+    <header>
+        <h2>👑 RSVP to Ameera's Quince</h2>
+    </header>
+  <main class="rsvp-container">
+    <section class="rsvp-form-wrapper">
+      <h2>You're Invited!</h2>
+      <p>Please fill out the form below to RSVP to Ameera's quinceañera.</p>
+      <form action="submit_rsvp.php" method="POST">
+        <label for="name">Full Name:</label>
+        <input type="text" id="name" name="name" required>
+
+        <label for="phone">Phone Number:</label>
+        <input type="tel" id="phone" name="phone" required>
+
+        <label for="status">Attendance Status:</label>
+        <select id="status" name="status" required>
+          <option value="yes">Guaranteed</option>
+          <option value="maybe">Maybe Going</option>
+        </select>
+
+        <label for="guests"># of Additional Guests (Kids/Adults):</label>
+        <input type="number" id="guests" name="guests" min="0" max="10">
+
+        <button type="submit">Submit RSVP</button>
+      </form>
+    </section>
+  </main>
+</body>
+</html>
