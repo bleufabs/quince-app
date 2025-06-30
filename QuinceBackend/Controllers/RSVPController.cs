@@ -9,7 +9,7 @@ namespace QuinceBackend.Controllers
         [HttpPost]
         public IActionResult SubmitRSVP([FromForm] RSVPForm form)
         {
-            return Ok($"RSVP recieved for {form.Name} with Phone {form.Phone}");
+            return Ok($"RSVP received for {form.Name} with Phone {form.Phone}. Status: {form.Status}, Guests: {form.Guests}");
         }
     }
 
@@ -18,5 +18,7 @@ namespace QuinceBackend.Controllers
     {
         public string? Name { get; set; }
         public string? Phone { get; set; }
+        public string? Status { get; set; } // new field
+        public int Guests { get; set; } // new field
     }
 }
