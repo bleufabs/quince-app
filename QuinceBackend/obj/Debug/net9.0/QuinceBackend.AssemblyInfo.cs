@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("QuinceBackend")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+9c23f3545980855705bd585868a5db2ff760ad67")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+8952244f10f5606ca88c451ce022127606db3f64")]
 [assembly: System.Reflection.AssemblyProductAttribute("QuinceBackend")]
 [assembly: System.Reflection.AssemblyTitleAttribute("QuinceBackend")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
