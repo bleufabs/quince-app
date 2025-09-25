@@ -120,12 +120,12 @@ footer{
   justify-content: center;
   align-items: center;
   padding: 2rem;
-  background: url("https://i.imgur.com/QeEVo3e.png") no-repeat center cover;
+  background: url("https://i.imgur.com/QeEVo3e.png") no-repeat center contain;
   min-height: auto;
 }
 .rsvp-form-wrapper{
   position: relative;
-  background: url('../images/florall2.jpg') center/cover no-repeat;
+  background: url('../images/florall2.jpg') center/contain no-repeat;
   border: 3px solid #d4af37;
   border-radius: 1rem;
   max-width: 500px;
