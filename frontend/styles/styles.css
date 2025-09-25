@@ -120,26 +120,43 @@ footer{
 .rsvp-container{
   display: flex;
   justify-content: center;
+  align-items: center;
   padding: 2rem;
-  background: url("https://i.imgur.com/QeEVo3e.png") no-repeat center center;
-  background-size: cover;
-  min-height: 100vh;
+  background: url("https://i.imgur.com/QeEVo3e.png") no-repeat center cover;
+  min-height: auto;
 }
 .rsvp-form-wrapper{
-  background-color: rgba(255,255,255,0.95);
+  position: relative;
+  background: url('../images/florall2.jpg') center/cover no-repeat;
   border: 3px solid #d4af37;
   border-radius: 1rem;
-  padding: clamp(1.25rem, 4vw, 2rem);
   max-width: 500px;
   width: 100%;
+  padding: clamp(1rem, 3.5vw, 1.75rem);
   box-shadow: 0 8px 24px rgba(0,0,0,0.15);
-  backdrop-filter: blur(4px);
+  overflow: hidden; /* keeps blur inside rounded corners */
 }
-.rsvp-form-wrapper p{
-  text-align: center;
-  font-size: 1rem;
-  color: #4a5a46;
-  margin-bottom: 1.5rem;
+
+/* Blurred background effect */
+.rsvp-form-wrapper::before{
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: inherit;             /* copies floral image */
+  filter: blur(8px) brightness(1.1); /* blur + slight brighten */
+  transform: scale(1.1);           /* prevents blur edges showing */
+  z-index: 0;
+}
+/* Ensures form content is above blurred background */
+.rsvp-form-wrapper > *{
+  position: relative;
+  z-index: 1;
+}
+
+.rsvp-form-wrapper p,
+form label{
+  color: #223122;          /* darker for contrast */
+  font-weight: 600;
 }
 form{ display: flex; flex-direction: column; }
 form label{
@@ -152,7 +169,7 @@ form input, form select{
   border: 1px solid #b5cbbb;
   border-radius: 0.5rem;
   font-size: 1rem;
-  background-color: #f7fff8;
+  background-color: #f9fff9;
 }
 form button{
   margin-top: 1.5rem;
