@@ -1,0 +1,15 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "QuinceBackend",
+      "type": "coreclr",
+      "request": "launch",
+      "preLaunchTask": "Run API (watch)",
+      "program": "${workspaceFolder}/QuinceBackend/bin/Debug/net9.0/QuinceBackend.dll",
+      "cwd": "${workspaceFolder}/QuinceBackend",
+      "stopAtEntry": false,
+      "console": "integratedTerminal"
+    }
+  ]
+}
