@@ -1,0 +1,27 @@
+# --- C# / .NET ---
+bin/
+obj/
+*.user
+*.suo
+*.db
+*.log
+.vs/
+appsettings.Development.json
+
+# --- Frontend (future proofing if you add npm) ---
+node_modules/
+dist/
+build/
+
+# --- OS / Editor ---
+.DS_Store
+Thumbs.db
+ehthumbs.db
+*.swp
+*.swo
+.idea/
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
