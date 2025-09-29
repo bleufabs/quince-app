@@ -23,8 +23,8 @@
   "[javascript]": {
     "editor.defaultFormatter": "vscode.javascript"
   },
-  "csharp.inlayHints.parameters.enabled": true,
-  "csharp.inlayHints.types.enabled": true,
   "dotnet.format.enable": true,
-  "dotnet.server.useOmnisharp": false
+  "dotnet.server.useOmnisharp": false,
+  "dotnet.inlayHints.enableInlayHintsForParameters": true,
+  "csharp.inlayHints.enableInlayHintsForTypes": true
 }

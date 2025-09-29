@@ -1,24 +1,55 @@
 using Microsoft.AspNetCore.Mvc;
-namespace QuinceBackend.Controllers
+using Microsoft.EntityFrameworkCore;
+
+using QuinceBackend.Data;
+using QuinceBackend.Dtos;
+using QuinceBackend.Models;
+
+namespace QuinceBackend.Controllers;
+
+[ApiController]
+[Route("rsvps")]
+public class RsvpsController(AppDbContext db) : ControllerBase
 {
-    [ApiController]
-    [Route("api/[controller]")]
-    public class RSVPController : ControllerBase
+    // GET /rsvps
+    [HttpGet]
+    public async Task<ActionResult<IEnumerable<Rsvp>>> GetAll()
     {
-        // Define your actions here
-        [HttpPost]
-        public IActionResult SubmitRSVP([FromForm] RSVPForm form)
-        {
-            return Ok($"RSVP received for {form.Name} with Phone {form.Phone}. Status: {form.Status}, Guests: {form.Guests}");
-        }
+        var list = await db.Rsvps
+            .OrderByDescending(r => r.CreatedAtUtc)
+            .ToListAsync();
+        return Ok(list);
     }
 
-    // Define the RSVPForm model
-    public class RSVPForm
+    // POST /rsvps
+    [HttpPost]
+    public async Task<ActionResult<Rsvp>> Create([FromBody] CreateRsvpDto dto)
     {
-        public string? Name { get; set; }
-        public string? Phone { get; set; }
-        public string? Status { get; set; } // new field
-        public int Guests { get; set; } // new field
+        if (!ModelState.IsValid) return ValidationProblem(ModelState);
+
+        var entity = new Rsvp
+        {
+            Name = dto.Name.Trim(),
+            Phone = dto.Phone.Trim(),
+            Status = dto.Status.Trim().ToLowerInvariant(),
+            Guests = dto.Guests,
+            Kids = dto.Kids,
+            CreatedAtUtc = DateTime.UtcNow
+        };
+
+        db.Rsvps.Add(entity);
+        await db.SaveChangesAsync();
+
+        // Return 201 + Location header
+        return CreatedAtAction(nameof(GetOne), new { id = entity.Id }, entity);
+    }
+
+    // GET /rsvps/{id}
+    [HttpGet("{id:int}")]
+    public async Task<ActionResult<Rsvp>> GetOne([FromRoute] int id)
+    {
+        var r = await db.Rsvps.FindAsync(id);
+        if (r is null) return NotFound();
+        return Ok(r);
     }
 }
