@@ -9,7 +9,7 @@ public class Rsvp
     [Required, MaxLength(100)]
     public string Name { get; set; } = string.Empty;
 
-    // Keep raw string for now; we can normalize later.
+    // Keep raw string for now; can normalize later.
     [Required, MaxLength(25)]
     [RegularExpression(@"^[0-9\-\+\(\)\s\.]{7,25}$", ErrorMessage = "Phone format looks invalid.")]
     public string Phone { get; set; } = string.Empty;
