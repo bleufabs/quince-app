@@ -8,48 +8,90 @@ using QuinceBackend.Models;
 namespace QuinceBackend.Controllers;
 
 [ApiController]
-[Route("rsvps")]
-public class RsvpsController(AppDbContext db) : ControllerBase
+[Route("api/[controller]")]
+public class RsvpsController : ControllerBase
 {
-    // GET /rsvps
-    [HttpGet]
-    public async Task<ActionResult<IEnumerable<Rsvp>>> GetAll()
+    private readonly AppDbContext _db;
+    private readonly string _adminKey;
+
+    public RsvpsController(AppDbContext db, IConfiguration cfg)
     {
-        var list = await db.Rsvps
-            .OrderByDescending(r => r.CreatedAtUtc)
-            .ToListAsync();
-        return Ok(list);
+        _db = db;
+        _adminKey = cfg["Admin:ApiKey"] ?? string.Empty;
     }
 
-    // POST /rsvps
+    // Keep a simple header check for admin endpoints
+    private bool IsAdmin(HttpRequest req) =>
+        req.Headers.TryGetValue("X-Admin-Key", out var v) && v == _adminKey;
+
+    // Normalize phone: keep optional leading + and digits
+    private static string NormalizePhone(string phone)
+    {
+        if (string.IsNullOrWhiteSpace(phone)) return string.Empty;
+        var plus = phone.Trim().StartsWith("+") ? "+" : "";
+        var digits = new string(phone.Where(char.IsDigit).ToArray());
+        return plus + digits;
+    }
+
+    // POST /api/rsvps  (PUBLIC) — create one RSVP
     [HttpPost]
-    public async Task<ActionResult<Rsvp>> Create([FromBody] CreateRsvpDto dto)
+    public async Task<ActionResult<RsvpPublicDto>> Create([FromBody] CreateRsvpDto dto)
     {
         if (!ModelState.IsValid) return ValidationProblem(ModelState);
+
+        if (dto.Status != "yes" && dto.Status != "maybe")
+            return BadRequest("Status must be 'yes' or 'maybe'.");
+
+        var normPhone = NormalizePhone(dto.Phone);
+        if (normPhone.Length < 10) return BadRequest("Phone looks invalid.");
 
         var entity = new Rsvp
         {
             Name = dto.Name.Trim(),
-            Phone = dto.Phone.Trim(),
-            Status = dto.Status.Trim().ToLowerInvariant(),
-            Guests = dto.Guests,
-            Kids = dto.Kids,
+            Phone = normPhone,
+            Status = dto.Status,
+            Guests = Math.Clamp(dto.Guests, 0, 20),
+            Kids = Math.Clamp(dto.Kids, 0, 20),
             CreatedAtUtc = DateTime.UtcNow
         };
 
-        db.Rsvps.Add(entity);
-        await db.SaveChangesAsync();
+        _db.Rsvps.Add(entity);
+        await _db.SaveChangesAsync();
 
-        // Return 201 + Location header
-        return CreatedAtAction(nameof(GetOne), new { id = entity.Id }, entity);
+        return CreatedAtAction(nameof(GetOnePublic), new { id = entity.Id }, entity.ToPublicDto());
     }
 
-    // GET /rsvps/{id}
+    // GET /api/rsvps/{id}  (PUBLIC) — single item, phone never returned
     [HttpGet("{id:int}")]
-    public async Task<ActionResult<Rsvp>> GetOne([FromRoute] int id)
+    public async Task<ActionResult<RsvpPublicDto>> GetOnePublic(int id)
     {
-        var r = await db.Rsvps.FindAsync(id);
+        var r = await _db.Rsvps.FindAsync(id);
         if (r is null) return NotFound();
-        return Ok(r);
+        return r.ToPublicDto();
+    }
+
+    // GET /api/rsvps/summary  (PUBLIC) — counts for a small widget
+    [HttpGet("summary")]
+    public async Task<ActionResult<RsvpSummaryDto>> Summary()
+    {
+        var yes = await _db.Rsvps.CountAsync(x => x.Status == "yes");
+        var maybe = await _db.Rsvps.CountAsync(x => x.Status == "maybe");
+        var total = await _db.Rsvps.SumAsync(x => x.Guests + x.Kids + 1); // +1 = submitter
+
+        return new RsvpSummaryDto(yes, maybe, total);
+    }
+
+    // GET /api/rsvps/admin  (ADMIN) — full list including phones
+    [HttpGet("admin")]
+    public async Task<ActionResult<IEnumerable<RsvpAdminDto>>> AdminList()
+    {
+        if (!IsAdmin(Request)) return Unauthorized("Missing or invalid X-Admin-Key.");
+
+        var rows = await _db.Rsvps
+            .OrderByDescending(x => x.CreatedAtUtc)
+            .Select(x => x.ToAdminDto())
+            .ToListAsync();
+
+        return rows;
     }
 }
