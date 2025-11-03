@@ -1,84 +1,96 @@
 /* ---------- GLOBAL ---------- */
-body{
+body {
   margin: 0;
   font-family: 'Georgia', serif;
   background-color: #fdfcfb;
   color: #2e3d2e;
-  background-image: url('../images/florall1.jpg');
+  background-image: url('florall1.jpg');
   background-size: cover;
   background-repeat: no-repeat;
   background-attachment: fixed;
 }
 
 /* ---------- NAVBAR (always on top) ---------- */
-nav{
+nav {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 1rem 2rem;
-  background-color: rgba(255,255,255,0.9);
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-  position: sticky;          /* use fixed if you want it always visible while scrolling */
+  background-color: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  position: sticky;
+  /* use fixed if you want it always visible while scrolling */
   top: 0;
   z-index: 9999;
 }
-nav a{
+
+nav a {
   margin-left: 1rem;
   text-decoration: none;
   color: #6c8b6f;
   font-weight: bold;
 }
-nav a:hover{ color: #d4af37; }
+
+nav a:hover {
+  color: #d4af37;
+}
 
 /* ---------- HERO / HEADER ---------- */
 /* The header no longer draws the crown as a background */
-header{
+header {
   position: relative;
   margin: 2rem;
   border-radius: 1.25rem;
   background: transparent;
 }
 
-.header-overlay{
+.header-overlay {
   margin: 0 auto;
   max-width: 900px;
   border-radius: 1rem;
-  box-shadow: 0 8px 24px rgba(0,0,0,0.02);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.02);
   /* no BIG top padding anymore—image provides space */
   padding: 0 2rem 2.25rem;
   text-align: center;
 }
 
 /* Crown image that reserves space and scales safely */
-.crown{
+.crown {
   display: block;
-  max-width: 700px;               /* cap its width so it doesn’t stretch too wide */
-  width: 80%;                     /* responsive sizing */
-  height: auto;                   /* keeps aspect ratio */
+  max-width: 700px;
+  /* cap its width so it doesn’t stretch too wide */
+  width: 80%;
+  /* responsive sizing */
+  height: auto;
+  /* keeps aspect ratio */
   margin: 0 auto;
   margin-bottom: 0;
 }
 
 /* Text under the crown; gap scales with viewport */
-.header-text{
-  margin-top: -5rem;  /* smaller gap than before */
-  padding-bottom: 1.5rem; /* less bottom padding */
+.header-text {
+  margin-top: -5rem;
+  /* smaller gap than before */
+  padding-bottom: 1.5rem;
+  /* less bottom padding */
 }
 
-.header-text h1{
+.header-text h1 {
   font-family: 'Great Vibes', cursive;
   font-size: clamp(2.2rem, 6vw, 3.5rem);
   color: #8a6d24;
   margin: 0 0 0.75rem 0;
   text-align: center;
 }
-.header-text p{
+
+.header-text p {
   margin: 0.3rem 0;
   color: #223122;
   font-size: clamp(1rem, 2.2vw, 1.3rem);
   text-align: center;
 }
-.header-text .timer{
+
+.header-text .timer {
   color: #d4af37;
   font-weight: 700;
   font-size: clamp(1.1rem, 2.4vw, 1.5rem);
@@ -86,18 +98,20 @@ header{
 }
 
 /* ---------- RSVP PAGE HEADER TEXT ---------- */
-.rsvp-header{
+.rsvp-header {
   margin: -5rem auto 0 auto;
   padding-bottom: 2rem;
   text-align: center;
 }
-.rsvp-header h1{
+
+.rsvp-header h1 {
   font-family: 'Great Vibes', cursive;
   color: #8a6d24;
   margin-bottom: 1rem;
   font-size: clamp(2rem, 6vw, 3rem);
 }
-.rsvp-header p{
+
+.rsvp-header p {
   max-width: 60ch;
   margin: 0 auto;
   font-size: clamp(1rem, 2.2vw, 1.3rem);
@@ -106,16 +120,16 @@ header{
 }
 
 /* ---------- FOOTER ---------- */
-footer{
+footer {
   text-align: center;
   padding: 1rem;
   font-size: 0.9rem;
-  background-color: rgba(255,255,255,0.8);
+  background-color: rgba(255, 255, 255, 0.8);
   margin-top: 2rem;
 }
 
 /* ---------- RSVP FORM ---------- */
-.rsvp-container{
+.rsvp-container {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -123,53 +137,68 @@ footer{
   background: url("https://i.imgur.com/QeEVo3e.png") no-repeat center contain;
   min-height: auto;
 }
-.rsvp-form-wrapper{
+
+.rsvp-form-wrapper {
   position: relative;
-  background: url('../images/florall2.jpg') center/contain no-repeat;
+  background: url('florall2.jpg') center/contain no-repeat;
   border: 3px solid #d4af37;
   border-radius: 1rem;
   max-width: 500px;
   width: 100%;
   padding: clamp(1rem, 3.5vw, 1.75rem);
-  box-shadow: 0 8px 24px rgba(0,0,0,0.15);
-  overflow: hidden; /* keeps blur inside rounded corners */
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  overflow: hidden;
+  /* keeps blur inside rounded corners */
 }
 
 /* Blurred background effect */
-.rsvp-form-wrapper::before{
+.rsvp-form-wrapper::before {
   content: "";
   position: absolute;
   inset: 0;
-  background: inherit;             /* copies floral image */
-  filter: blur(8px) brightness(1.1); /* blur + slight brighten */
-  transform: scale(1.1);           /* prevents blur edges showing */
+  background: inherit;
+  /* copies floral image */
+  filter: blur(8px) brightness(1.1);
+  /* blur + slight brighten */
+  transform: scale(1.1);
+  /* prevents blur edges showing */
   z-index: 0;
 }
+
 /* Ensures form content is above blurred background */
-.rsvp-form-wrapper > *{
+.rsvp-form-wrapper>* {
   position: relative;
   z-index: 1;
 }
 
 .rsvp-form-wrapper p,
-form label{
-  color: #223122;          /* darker for contrast */
+form label {
+  color: #223122;
+  /* darker for contrast */
   font-weight: 600;
 }
-form{ display: flex; flex-direction: column; }
-form label{
+
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+form label {
   margin: 0.5rem 0 0.2rem;
   font-weight: 600;
   color: #3c503c;
 }
-form input, form select{
+
+form input,
+form select {
   padding: 0.6rem;
   border: 1px solid #b5cbbb;
   border-radius: 0.5rem;
   font-size: 1rem;
   background-color: #f9fff9;
 }
-form button{
+
+form button {
   margin-top: 1.5rem;
   padding: 0.75rem;
   background-color: #6c8b6f;
@@ -181,23 +210,29 @@ form button{
   cursor: pointer;
   transition: background-color .3s ease, transform .05s ease;
 }
-form button:hover{ background-color: #567457; }
-form button:active{ transform: translateY(1px); }
+
+form button:hover {
+  background-color: #567457;
+}
+
+form button:active {
+  transform: translateY(1px);
+}
 
 .header-text h1,
 .header-text p,
 .rsvp-header h1,
 .rsvp-header p {
-  text-shadow: -1px -1px 0 rgba(255,255,255,0.8),
-     1px -1px 0 rgba(255,255,255,0.8),
-    -1px  1px 0 rgba(255,255,255,0.8),
-     1px  1px 0 rgba(255,255,255,0.8),
-     3px  4px 8px rgba(255,255,255,1.2);
- /* soft dark shadow */
+  text-shadow: -1px -1px 0 rgba(255, 255, 255, 0.8),
+    1px -1px 0 rgba(255, 255, 255, 0.8),
+    -1px 1px 0 rgba(255, 255, 255, 0.8),
+    1px 1px 0 rgba(255, 255, 255, 0.8),
+    3px 4px 8px rgba(255, 255, 255, 1.2);
+  /* soft dark shadow */
 }
 
 /* ----------Index PAGE CONTENT ---------- */
-main{
+main {
   max-width: 900px;
   margin: 0 auto 2rem auto;
   padding: 0 1rem;
@@ -207,10 +242,18 @@ main{
 
 
 /* ---------- EDGE CASE TUNING ---------- */
-@media (max-width: 380px){
-  .crown{ max-height: 36vh; }
-  .header-text{ margin-top: 12px; }
+@media (max-width: 380px) {
+  .crown {
+    max-height: 36vh;
+  }
+
+  .header-text {
+    margin-top: 12px;
+  }
 }
-@media (min-aspect-ratio: 16/9){
-  .crown{ max-height: 34vh; }
+
+@media (min-aspect-ratio: 16/9) {
+  .crown {
+    max-height: 34vh;
+  }
 }
