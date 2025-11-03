@@ -21,7 +21,7 @@
         function updateCountdown() {
             const now = new Date();
             const diffMs = EVENT_DATE - now;
-            const daysLeft = Math.ceil(diffMs / (1000 * 60 * 60 * 25));
+            const daysLeft = Math.ceil(diffMs / (1000 * 60 * 60 * 24));
 
             if (daysLeft <= 0) {
                 timerEl.textContent = "It's Ameera's big day! 🎉";
