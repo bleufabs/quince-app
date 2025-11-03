@@ -2,11 +2,11 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>RSVP | Ameera's Quince</title>
-  <link rel="stylesheet" href="../styles/styles.css">
-  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
-
+  <link rel="stylesheet" href="../styles/styles.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
 </head>
 
 <body>
@@ -21,14 +21,13 @@
     </div>
   </nav>
 
-  <!-- Header with crown that reserves space -->
+  <!-- Header -->
   <header class="hero hero--rsvp">
     <div class="hero-inner">
-      <img class="crown" src="../images/crown.png" alt="Golden crown">
+      <img class="crown" src="../images/crown.png" alt="Golden crown" />
       <div class="header-text rsvp-header">
         <h1>RSVP!</h1>
-        <p>We can't wait to celebrate with you! Please let us know if you'll be attending Ameera's quinceañera by
-          filling out the form below.</p>
+        <p>We can't wait to celebrate with you! Please let us know if you'll be attending.</p>
       </div>
     </div>
   </header>
@@ -36,13 +35,15 @@
   <main class="rsvp-container">
     <section class="rsvp-form-wrapper">
       <h2>You're Invited!</h2>
-      <p>Please fill out the form below to RSVP to Ameera's quinceañera.</p>
-      <form action="http://localhost:7256/api/rsvp" method="POST">
+      <p>Please fill out the form below to RSVP.</p>
+
+      <!-- IMPORTANT: give the form an id; remove action/method so JS handles submit -->
+      <form id="rsvpForm">
         <label for="name">Full Name:</label>
-        <input type="text" id="name" name="name" required>
+        <input type="text" id="name" name="name" required />
 
         <label for="phone">Phone Number:</label>
-        <input type="tel" id="phone" name="phone" inputmode="tel" required>
+        <input type="tel" id="phone" name="phone" inputmode="tel" autocomplete="tel" required />
 
         <label for="status">Attendance Status:</label>
         <select id="status" name="status" required>
@@ -50,40 +51,68 @@
           <option value="maybe">Maybe Going</option>
         </select>
 
-        <label for="guests"># of Additional Guests (Kids/Adults):</label>
-        <input type="number" id="guests" name="guests" min="0" max="10" value="0">
+        <label for="guests"># of Additional Guests (Adults):</label>
+        <input type="number" id="guests" name="guests" min="0" max="20" value="0" inputmode="numeric" />
+
+        <!-- optional kids field; keep if you want to track separately -->
+        <label for="kids"># of Kids:</label>
+        <input type="number" id="kids" name="kids" min="0" max="20" value="0" inputmode="numeric" />
+
+        <!-- Honeypot (anti-bot) -->
+        <input id="website" name="website" style="display:none" tabindex="-1" autocomplete="off" />
 
         <button type="submit">Submit RSVP</button>
       </form>
+
+      <p id="rsvpMsg" style="margin-top:0.75rem;"></p>
     </section>
   </main>
+
+  <!-- Put script at the bottom so elements exist -->
+  <script>
+    const API_BASE = "http://localhost:5050/api"; // change to your Render URL on deploy
+
+    const form = document.getElementById("rsvpForm");
+    const msg = document.getElementById("rsvpMsg");
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      // honeypot: if filled, quietly accept without sending
+      if (document.getElementById("website").value) {
+        msg.textContent = "Thanks! Your RSVP was recorded.";
+        form.reset();
+        return;
+      }
+
+      const payload = {
+        name: document.getElementById("name").value.trim(),
+        phone: document.getElementById("phone").value.trim(),
+        status: document.getElementById("status").value, // SELECT value
+        guests: Number(document.getElementById("guests").value || 0),
+        kids: Number(document.getElementById("kids").value || 0)
+      };
+
+      try {
+        const res = await fetch(`${API_BASE}/rsvps`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload)
+        });
+
+        if (!res.ok) {
+          const text = await res.text();
+          throw new Error(text || `HTTP ${res.status}`);
+        }
+
+        msg.textContent = "Thanks! Your RSVP was recorded.";
+        form.reset();
+      } catch (err) {
+        msg.textContent = "Could not submit RSVP: " + err.message;
+        console.error("RSVP POST failed:", err);
+      }
+    });
+  </script>
 </body>
-
-<script>
-  const API_BASE = "http://localhost:5050/api";
-
-  document.getElementById("rsvpForm").addEventListener("submit", async (e) => {
-    e.preventDefault();
-    const payload = {
-      name: document.getElementById("name").value.trim(),
-      phone: document.getElementById("phone").value.trim(),
-      status: document.querySelector('input[name="status"]:checked').value,
-      guests: Number(document.getElementById("guests").value || 0),
-      kids: Number(document.getElementById("kids").value || 0)
-    };
-    try {
-      const res = await fetch(`${API_BASE}/rsvps`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload)
-      });
-      if (!res.ok) throw new Error(await res.text());
-      alert("Thanks! Your RSVP was recorded.");
-      e.target.reset();
-    } catch (err) {
-      alert("Could not submit RSVP: " + err.message);
-    }
-  });
-</script>
 
 </html>
