@@ -41,7 +41,6 @@ loadBtn.addEventListener("click", async () => {
   }
 });
 
-// optional CSV
 csvBtn?.addEventListener("click", () => {
   const rows = [["ID","Name","Phone","Status","Guests","Kids","Created"]];
   rowsEl.querySelectorAll("tr").forEach(tr => {
