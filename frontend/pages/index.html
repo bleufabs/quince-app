@@ -1,60 +1,88 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
 
-        <meta charset="utf-8">
-        <title>Quince-RSVP</title>
-        <meta name="description" content="">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="../styles/styles.css">
-    </head>
-    <body>
-        <!-- Navbar -->
-        <nav>
-            <div><strong>Ameera's Quince</strong></div>
-            <div>
+<head>
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
+
+    <meta charset="utf-8">
+    <title>Quince-RSVP</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="../styles/styles.css">
+</head>
+
+<script>
+    // Countdown Timer Script
+    document.addEventListener("DOMContentLoaded", () => {
+        const EVENT_DATE = new Date("2026-04-24T00:00:00");
+        const timerEl = document.querySelector(".timer");
+        if (!timerEl) return;
+
+        function updateCountdown() {
+            const now = new Date();
+            const diffMs = EVENT_DATE - now;
+            const daysLeft = Math.ceil(diffMs / (1000 * 60 * 60 * 24));
+
+            if (daysLeft <= 0) {
+                timerEl.textContent = "It's Ameera's big day! 🎉";
+                clearInterval(interval);
+            } else {
+                timerEl.textContent = `${daysLeft} day${daysLeft === 1 ? "" : "s"} remaining`;
+            }
+        }
+
+        updateCountdown();
+        const interval = setInterval(updateCountdown, 1000 * 60 * 60);
+    });
+</script>
+
+<body>
+    <!-- Navbar -->
+    <nav>
+        <div><strong>Ameera's Quince</strong></div>
+        <div>
             <a href="index.html">Home</a>
             <a href="rsvp.html">RSVP</a>
             <a href="photos.html">Share you Photos</a>
             <!-- You can add "Photos" link here later -->
-            </div>
-        </nav>
+        </div>
+    </nav>
 
-        <!-- Main Invite Section -->
-        <header class="hero">
-            <div class="hero-inner">
-                <img class="crown" src="../images/crown.png" alt="Golden crown">
-                <div class="header-text">
+    <!-- Main Invite Section -->
+    <header class="hero">
+        <div class="hero-inner">
+            <img class="crown" src="../images/crown.png" alt="Golden crown">
+            <div class="header-text">
                 <h1>You're Invited!</h1>
                 <p>Join us in celebrating Ameera's Quinceañera</p>
                 <p><strong>April 24th, 2026</strong></p>
                 <p class="timer">Loading countdown...</p>
-                </div>
             </div>
-        </header>
+        </div>
+    </header>
 
-        <!-- Event Details Section -->
-        <main class="details-container">
-            <section class="details">
-                <h2>Event Details</h2>
-                <p><strong>Date:</strong> April 24th, 2026</p>
-                <p><strong>Time:</strong> 5:00 PM - 11:00 PM</p>
-                <p><strong>Location:</strong> The Grand Ballroom, 123 Celebration Ave, Cityville</p>
-                <p><strong>Dress Code:</strong> Formal Attire</p>
-                <p>We look forward to celebrating this special day with you!</p>
-            </section>
-        </main>
+    <!-- Event Details Section -->
+    <main class="details-container">
+        <section class="details">
+            <h2>Event Details</h2>
+            <p><strong>Date:</strong> April 24th, 2026</p>
+            <p><strong>Time:</strong> 5:00 PM - 11:00 PM</p>
+            <p><strong>Location:</strong> The Grand Ballroom, 123 Celebration Ave, Cityville</p>
+            <p><strong>Dress Code:</strong> Formal Attire</p>
+            <p>We look forward to celebrating this special day with you!</p>
+        </section>
+    </main>
 
-        <!-- Footer -->
-        <footer>
-            <div class="sponsors">
-                <h3>Sponsored By:</h3>
-                <p></p>
-            </div>
-            <p>With love from the Segura, and McLeod families</p>
-            
-        </footer>
+    <!-- Footer -->
+    <footer>
+        <div class="sponsors">
+            <h3>Sponsored By:</h3>
+            <p></p>
+        </div>
+        <p>With love from the Segura, and McLeod families</p>
 
-    </body>
+    </footer>
+
+</body>
+
 </html>
