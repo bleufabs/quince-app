@@ -1,5 +1,6 @@
 // rsvp.js
-const API_BASE = "https://<YOUR-RENDER-SERVICE>.onrender.com/api"; // <- put your real Render URL
+const API_BASE = "https://quince-app.onrender.com/api";
+
 
 const form = document.getElementById("rsvpForm");
 const msg  = document.getElementById("rsvpMsg");

@@ -68,51 +68,6 @@
     </section>
   </main>
 
-  <!-- Put script at the bottom so elements exist -->
-  <script>
-    const API_BASE = "http://localhost:5050/api"; // change to your Render URL on deploy
-
-    const form = document.getElementById("rsvpForm");
-    const msg = document.getElementById("rsvpMsg");
-
-    form.addEventListener("submit", async (e) => {
-      e.preventDefault();
-
-      // honeypot: if filled, quietly accept without sending
-      if (document.getElementById("website").value) {
-        msg.textContent = "Thanks! Your RSVP was recorded.";
-        form.reset();
-        return;
-      }
-
-      const payload = {
-        name: document.getElementById("name").value.trim(),
-        phone: document.getElementById("phone").value.trim(),
-        status: document.getElementById("status").value, // SELECT value
-        guests: Number(document.getElementById("guests").value || 0),
-        kids: Number(document.getElementById("kids").value || 0)
-      };
-
-      try {
-        const res = await fetch(`${API_BASE}/rsvps`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(payload)
-        });
-
-        if (!res.ok) {
-          const text = await res.text();
-          throw new Error(text || `HTTP ${res.status}`);
-        }
-
-        msg.textContent = "Thanks! Your RSVP was recorded.";
-        form.reset();
-      } catch (err) {
-        msg.textContent = "Could not submit RSVP: " + err.message;
-        console.error("RSVP POST failed:", err);
-      }
-    });
-  </script>
   <script src="rsvp.js" defer></script>
 
 </body>
