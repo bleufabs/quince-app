@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <title>RSVP | Ameera's Quince</title>
@@ -7,6 +8,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
 
 </head>
+
 <body>
   <!-- Navbar -->
   <nav>
@@ -24,7 +26,8 @@
       <img class="crown" src="../images/crown.png" alt="Golden crown">
       <div class="header-text rsvp-header">
         <h1>RSVP!</h1>
-        <p>We can't wait to celebrate with you! Please let us know if you'll be attending Ameera's quinceañera by filling out the form below.</p>
+        <p>We can't wait to celebrate with you! Please let us know if you'll be attending Ameera's quinceañera by
+          filling out the form below.</p>
       </div>
     </div>
   </header>
@@ -54,4 +57,32 @@
     </section>
   </main>
 </body>
+
+<script>
+  const API_BASE = "http://localhost:5050/api";
+
+  document.getElementById("rsvpForm").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const payload = {
+      name: document.getElementById("name").value.trim(),
+      phone: document.getElementById("phone").value.trim(),
+      status: document.querySelector('input[name="status"]:checked').value,
+      guests: Number(document.getElementById("guests").value || 0),
+      kids: Number(document.getElementById("kids").value || 0)
+    };
+    try {
+      const res = await fetch(`${API_BASE}/rsvps`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+      });
+      if (!res.ok) throw new Error(await res.text());
+      alert("Thanks! Your RSVP was recorded.");
+      e.target.reset();
+    } catch (err) {
+      alert("Could not submit RSVP: " + err.message);
+    }
+  });
+</script>
+
 </html>

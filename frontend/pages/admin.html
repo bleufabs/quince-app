@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Admin | Ameera's Quince</title>
+  <link rel="stylesheet" href="../styles/styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
+
+</head>
+
+<body>
+  <!-- Navbar -->
+  <nav>
+    <div><strong>Ameera's Quince</strong></div>
+    <div>
+      <a href="index.html">Home</a>
+      <a href="rsvp.html">RSVP</a>
+      <a href="photos.html">Share your Photos</a>
+      <a href="admin.html">Admin</a>
+    </div>
+  </nav>
+
+  <!-- Header with crown that reserves space -->
+  <header class="hero hero--login">
+    <div class="hero-inner">
+      <img class="crown" src="../images/crown.png" alt="Golden crown">
+      <div class="header-text rsvp-header">
+        <h1>Admin Login</h1>
+        <p></p>
+      </div>
+    </div>
+  </header>
+
+  <main class="admin-container">
+    <section class="admin-form-wrapper">
+      <h2>Admin Panel</h2>
+      <p>Enter your admin key to view the guest list.</p>
+
+      <label for="adminKey">Admin Key:</label>
+      <input type="password" id="adminKey" placeholder="Enter your secret key" required>
+      <button id="loadBtn">Load Guest List</button>
+      <p id="errorMsg" style="color:red"></p>
+    </section>
+
+    <section id="guestList" style="display:none; margin-top:2rem;">
+      <h2>Guest List</h2>
+      <button id="csvBtn">Export CSV</button>
+
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Phone</th>
+            <th>Status</th>
+            <th>Guests</th>
+            <th>Kids</th>
+            <th>Created</th>
+          </tr>
+        </thead>
+        <tbody id="rsvpRows"></tbody>
+      </table>
+    </section>
+  </main>
+
+  <script>
+    const API_BASE = "http://localhost:5050/api"; // Change on deploy
+
+    const keyInput = document.getElementById("adminKey");
+    const loadBtn = document.getElementById("loadBtn");
+    const rowsEl = document.getElementById("rsvpRows");
+    const tableSection = document.getElementById("guestList");
+    const errorMsg = document.getElementById("errorMsg");
+    const csvBtn = document.getElementById("csvBtn");
+
+    // (Nice) Remember the key for this tab only
+    if (sessionStorage.getItem("ADMIN_KEY")) {
+      keyInput.value = sessionStorage.getItem("ADMIN_KEY");
+    }
+
+    function fmtPhone(raw) {
+      // format digits to (XXX) XXX-XXXX if US-length; otherwise return as-is
+      const d = raw.replace(/\D/g, "");
+      if (d.length === 11 && d.startsWith("1")) return `+1 (${d.slice(1, 4)}) ${d.slice(4, 7)}-${d.slice(7)}`;
+      if (d.length === 10) return `(${d.slice(0, 3)}) ${d.slice(3, 6)}-${d.slice(6)}`;
+      return raw;
+    }
+
+    function toCsv(rows) {
+      const header = ["ID", "Name", "Phone", "Status", "Guests", "Kids", "Created"];
+      const escape = (v) => `"${String(v).replaceAll('"', '""')}"`;
+      const lines = [header.join(",")];
+      for (const r of rows) {
+        lines.push([
+          r.id,
+          escape(r.name),
+          escape(r.phone),
+          r.status,
+          r.guests,
+          r.kids,
+          r.createdAtUtc
+        ].join(","));
+      }
+      return lines.join("\n");
+    }
+
+    async function loadList() {
+      const adminKey = keyInput.value.trim();
+      if (!adminKey) { alert("Please enter your admin key."); return; }
+
+      // cache key for this tab
+      sessionStorage.setItem("ADMIN_KEY", adminKey);
+
+      // loading state
+      errorMsg.textContent = "";
+      tableSection.style.display = "block";
+      rowsEl.innerHTML = `<tr><td colspan="7">Loading…</td></tr>`;
+
+      try {
+        const res = await fetch(`${API_BASE}/rsvps/admin`, {
+          headers: { "X-Admin-Key": adminKey }
+        });
+        if (!res.ok) throw new Error("Invalid or unauthorized key.");
+
+        const data = await res.json();
+        if (!Array.isArray(data) || data.length === 0) {
+          rowsEl.innerHTML = `<tr><td colspan="7">No RSVPs yet.</td></tr>`;
+          return;
+        }
+
+        // render rows (newest first already from API)
+        rowsEl.innerHTML = "";
+        for (const r of data) {
+          const tr = document.createElement("tr");
+          tr.innerHTML = `
+          <td>${r.id}</td>
+          <td>${r.name}</td>
+          <td>${fmtPhone(r.phone)}</td>
+          <td>${r.status}</td>
+          <td>${r.guests}</td>
+          <td>${r.kids}</td>
+          <td>${new Date(r.createdAtUtc).toLocaleString()}</td>
+        `;
+          rowsEl.appendChild(tr);
+        }
+
+        // hook CSV export to current dataset
+        csvBtn.onclick = () => {
+          const csv = toCsv(data);
+          const blob = new Blob([csv], { type: "text/csv" });
+          const url = URL.createObjectURL(blob);
+          const a = Object.assign(document.createElement("a"), { href: url, download: "rsvps.csv" });
+          document.body.appendChild(a); a.click(); a.remove();
+          URL.revokeObjectURL(url);
+        };
+
+      } catch (err) {
+        errorMsg.textContent = err.message;
+        tableSection.style.display = "none";
+      }
+    }
+
+    loadBtn.addEventListener("click", loadList);
+
+    // Press Enter in the key field = click Load
+    keyInput.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") {
+        e.preventDefault();
+        loadList();
+      }
+    });
+  </script>
+
+</body>
