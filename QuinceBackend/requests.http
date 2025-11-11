@@ -3,11 +3,11 @@ POST http://localhost:5050/rsvps
 Content-Type: application/json
 
 {
-  "name": "Fabian Segura",
-  "phone": "(210) 812-9307",
-  "status": "yes",
-  "guests": 2,
-  "kids": 0
+  "name": "",
+  "phone": "",
+  "status": "",
+  "guests": ,
+  "kids": 
 }
 
 ### List RSVPs
