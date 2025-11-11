@@ -30,7 +30,7 @@ builder.Services.AddCors(o =>
     });
 });
 
-// ✅ Extras for launch-readiness
+
 builder.Services.AddEndpointsApiExplorer();   // for Swagger
 builder.Services.AddSwaggerGen();
 builder.Services.AddHealthChecks();
