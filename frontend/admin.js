@@ -14,20 +14,25 @@ if (sessionStorage.getItem("ADMIN_KEY")) {
 }
 
 function fmtPhone(raw) {
-  const d = raw.replace(/\D/g, "");
-  if (d.length === 11 && d.startsWith("1")) return `+1 (${d.slice(1,4)}) ${d.slice(4,7)}-${d.slice(7)}`;
-  if (d.length === 10) return `(${d.slice(0,3)}) ${d.slice(3,6)}-${d.slice(6)}`;
-  return raw;
+  const digits = String(raw ?? "").replace(/\D/g, "");
+  if (digits.length === 10) {
+    return `(${digits.slice(0, 3)}) ${digits.slice(3, 6)}-${digits.slice(6)}`;
+  }
+  return raw ?? "";
 }
 
-function toCsv(rows) {
-  const header = ["ID","Name","Phone","Status","Guests","Kids","Created"];
-  const esc = (v) => `"${String(v).replaceAll('"','""')}"`;
-  const lines = [header.join(",")];
-  for (const r of rows) {
-    lines.push([r.id, esc(r.name), esc(r.phone), r.status, r.guests, r.kids, r.createdAtUtc].join(","));
-  }
-  return lines.join("\n");
+function toCsv(items) {
+  const header = ["id","name","phone","status","guests","kids","createdAtUtc"];
+  const rows = items.map(r => [
+    r.id,
+    `"${String(r.name ?? "").replace(/"/g, '""')}"`,
+    `"${String(r.phone ?? "").replace(/"/g, '""')}"`,
+    r.status,
+    r.guests,
+    r.kids,
+    r.createdAtUtc
+  ].join(","));
+  return [header.join(","), ...rows].join("\n");
 }
 
 async function loadList() {
@@ -38,7 +43,7 @@ async function loadList() {
 
   errorMsg.textContent = "";
   tableSec.style.display = "block";
-  rowsEl.innerHTML = `<tr><td colspan="7">Loading…</td></tr>`;
+  rowsEl.innerHTML = `<tr><td colspan="8">Loading…</td></tr>`;
 
   try {
     const res = await fetch(`${API_BASE}/rsvps/admin`, {
@@ -47,13 +52,23 @@ async function loadList() {
     if (!res.ok) throw new Error("Invalid or unauthorized key.");
 
     const data = await res.json();
-    if (!Array.isArray(data) || data.length === 0) {
-      rowsEl.innerHTML = `<tr><td colspan="7">No RSVPs yet.</td></tr>`;
+    let currentData = Array.isArray(data) ? [...data] : [];
+
+    if (!Array.isArray(currentData) || currentData.length === 0) {
+      rowsEl.innerHTML = `<tr><td colspan="8">No RSVPs yet.</td></tr>`;
       return;
     }
 
     rowsEl.innerHTML = "";
-    for (const r of data) {
+
+    const removeFromCurrent = (id) => {
+      currentData = currentData.filter(x => x.id !== id);
+      if (currentData.length === 0) {
+        rowsEl.innerHTML = `<tr><td colspan="8">No RSVPs yet.</td></tr>`;
+      }
+    };
+
+    for (const r of currentData) {
       const tr = document.createElement("tr");
       tr.innerHTML = `
         <td>${r.id}</td>
@@ -62,12 +77,38 @@ async function loadList() {
         <td>${r.status}</td>
         <td>${r.guests}</td>
         <td>${r.kids}</td>
-        <td>${new Date(r.createdAtUtc).toLocaleString()}</td>`;
+        <td>${new Date(r.createdAtUtc).toLocaleString()}</td>
+        <td><button class="delete-btn" data-id="${r.id}">Delete</button></td>`;
+
+      const btn = tr.querySelector(".delete-btn");
+      btn.addEventListener("click", async () => {
+        const ok = confirm(`Delete RSVP for "${r.name}"? This cannot be undone.`);
+        if (!ok) return;
+
+        btn.disabled = true;
+
+        try {
+          const delRes = await fetch(`${API_BASE}/rsvps/${r.id}`, {
+            method: "DELETE",
+            headers: { "X-Admin-Key": adminKey }
+          });
+
+          if (!delRes.ok) throw new Error("Delete failed.");
+
+          tr.remove();
+          removeFromCurrent(r.id);
+        } catch (e) {
+          console.error(e);
+          alert("Could not delete RSVP. Please try again.");
+          btn.disabled = false;
+        }
+      });
+
       rowsEl.appendChild(tr);
     }
 
     csvBtn.onclick = () => {
-      const csv = toCsv(data);
+      const csv = toCsv(currentData);
       const blob = new Blob([csv], { type: "text/csv" });
       const url = URL.createObjectURL(blob);
       const a = Object.assign(document.createElement("a"), { href: url, download: "rsvps.csv" });

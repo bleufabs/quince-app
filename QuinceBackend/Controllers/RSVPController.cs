@@ -81,6 +81,22 @@ public class RsvpsController : ControllerBase
         return new RsvpSummaryDto(yes, maybe, total);
     }
 
+    // DELETE /api/rsvps/{id}  (ADMIN) — delete an RSVP by id
+    [HttpDelete("{id:int}")]
+    public async Task<IActionResult> Delete(int id)
+    {
+        if (!IsAdmin(Request)) return Unauthorized("Missing or invalid X-Admin-Key.");
+
+        var rsvp = await _db.Rsvps.FindAsync(id);
+        if (rsvp == null) return NotFound();
+
+        _db.Rsvps.Remove(rsvp);
+        await _db.SaveChangesAsync();
+
+        return Ok(new { message = "RSVP deleted." });
+    }
+
+
     // GET /api/rsvps/admin  (ADMIN) — full list including phones
     [HttpGet("admin")]
     public async Task<ActionResult<IEnumerable<RsvpAdminDto>>> AdminList()
@@ -94,4 +110,5 @@ public class RsvpsController : ControllerBase
 
         return rows;
     }
+
 }

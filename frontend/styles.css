@@ -309,3 +309,22 @@ main {
 .msg--info {
   opacity: 0.85;
 }
+
+/* Admin delete button */
+.delete-btn {
+  background: #c62828;
+  color: white;
+  border: none;
+  padding: 6px 10px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.delete-btn:hover {
+  background: #b71c1c;
+}
+
+.delete-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
