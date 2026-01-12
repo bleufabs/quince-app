@@ -292,3 +292,20 @@ main {
   text-transform: uppercase;
   opacity: 0.75;
 }
+
+/* ---------- messages ---------- */
+.msg {
+  margin-top: 0.75rem;
+}
+
+.msg--success {
+  color: #1a7f37;
+}
+
+.msg--error {
+  color: #b42318;
+}
+
+.msg--info {
+  opacity: 0.85;
+}
