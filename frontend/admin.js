@@ -34,6 +34,44 @@ function toCsv(items) {
   ].join(","));
   return [header.join(","), ...rows].join("\n");
 }
+function calcSummary(items) {
+  const rsvpCount = items.length;
+
+  // "Guest#" = submitter + guests (kids NOT included)
+  const guestCount = items.reduce((sum, r) => {
+    const guests = Number(r.guests ?? 0);
+    return sum + 1 + guests; // +1 = submitter
+  }, 0);
+
+  const kidsCount = items.reduce((sum, r) => {
+    return sum + Number(r.kids ?? 0);
+  }, 0);
+
+  return { rsvpCount, guestCount, kidsCount };
+}
+
+function renderSummary(items) {
+  const el = document.getElementById("summary");
+  if (!el) return;
+
+  const { rsvpCount, guestCount, kidsCount } = calcSummary(items);
+
+  el.innerHTML = `
+    <div class="summary-item">
+      <span class="summary-label">RSVP #</span>
+      <span class="summary-value">${rsvpCount}</span>
+    </div>
+    <div class="summary-item">
+      <span class="summary-label">Guest #</span>
+      <span class="summary-value">${guestCount}</span>
+    </div>
+    <div class="summary-item">
+      <span class="summary-label">Kids #</span>
+      <span class="summary-value">${kidsCount}</span>
+    </div>
+  `;
+}
+
 
 async function loadList() {
   const adminKey = keyInput.value.trim();
@@ -56,10 +94,13 @@ async function loadList() {
 
     if (!Array.isArray(currentData) || currentData.length === 0) {
       rowsEl.innerHTML = `<tr><td colspan="8">No RSVPs yet.</td></tr>`;
+      renderSummary([]);
       return;
     }
 
     rowsEl.innerHTML = "";
+    renderSummary(currentData);
+
 
     const removeFromCurrent = (id) => {
       currentData = currentData.filter(x => x.id !== id);
@@ -97,6 +138,7 @@ async function loadList() {
 
           tr.remove();
           removeFromCurrent(r.id);
+          renderSummary(currentData);
         } catch (e) {
           console.error(e);
           alert("Could not delete RSVP. Please try again.");

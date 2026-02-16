@@ -76,9 +76,15 @@ public class RsvpsController : ControllerBase
     {
         var yes = await _db.Rsvps.CountAsync(x => x.Status == "yes");
         var maybe = await _db.Rsvps.CountAsync(x => x.Status == "maybe");
-        var total = await _db.Rsvps.SumAsync(x => x.Guests + x.Kids + 1); // +1 = submitter
 
-        return new RsvpSummaryDto(yes, maybe, total);
+        var rsvpCount = await _db.Rsvps.CountAsync();
+
+        var guestCount = await _db.Rsvps.SumAsync(x => x.Guests); // adult guests
+        var kidsCount = await _db.Rsvps.SumAsync(x => x.Kids);
+
+        var total = rsvpCount + guestCount + kidsCount; // submitters + guests + kids
+
+        return new RsvpSummaryDto(yes, maybe, rsvpCount, guestCount, kidsCount, total);
     }
 
     // DELETE /api/rsvps/{id}  (ADMIN) — delete an RSVP by id

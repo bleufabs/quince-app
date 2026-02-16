@@ -353,3 +353,31 @@ tbody td {
   /* space inside cells */
   vertical-align: top;
 }
+
+/* Admin summary box */
+.summary-box {
+  display: flex;
+  gap: 16px;
+  margin: 14px 0 18px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: #f9f9f9;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.05);
+}
+
+.summary-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 90px;
+}
+
+.summary-label {
+  font-size: 0.85rem;
+  opacity: 0.7;
+}
+
+.summary-value {
+  font-size: 1.35rem;
+  font-weight: 800;
+}
