@@ -463,26 +463,22 @@ tbody td {
   }
 
   .sponsor-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(3, 1fr);
     gap: 0.75rem;
   }
 
   .sponsor-column {
-    padding: 0;
+    padding: 0 0.5rem;
+    border-bottom: none;
   }
 
   .sponsor-column:not(:last-child)::after {
-    display: none;
+    display: block;
   }
 
-  .sponsor-column {
-    border-bottom: 1px solid rgba(212, 175, 55, 0.35);
-    padding-bottom: 0.75rem;
-  }
-
-  .sponsor-column:last-child {
-    border-bottom: none;
-    padding-bottom: 0;
+  .sponsor-column li {
+    font-size: 0.95rem;
+    padding: 0.5rem 0;
   }
 }
 
