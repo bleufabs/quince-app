@@ -3,7 +3,7 @@ const API_BASE = "https://quince-app.onrender.com/api";
 const form = document.getElementById("rsvpForm");
 const msg = document.getElementById("rsvpMsg");
 
-// 🔒 RSVP cutoff date (Year, Month-1, Day, Hour)
+// 🔒 RSVP cutoff date (Year, Month-1, Day, Hour, Minute)
 const RSVP_CUTOFF = new Date(2026, 3, 20, 23, 59); 
 // April 20, 2026 at 11:59 PM
 
@@ -17,8 +17,39 @@ function normalizePhone(input) {
   return input.replace(/\D/g, "");
 }
 
+function isRsvpClosed() {
+  return new Date() > RSVP_CUTOFF;
+}
+
+function disableFormForCutoff() {
+  const submitBtn = form.querySelector('button[type="submit"]');
+
+  if (isRsvpClosed()) {
+    submitBtn.disabled = true;
+
+    // optional: disable all form fields too
+    Array.from(form.elements).forEach((el) => {
+      el.disabled = true;
+    });
+
+    setMsg("⛔ RSVPs are now closed. Thank you!", "error");
+    return true;
+  }
+
+  return false;
+}
+
+// Check as soon as page loads
+disableFormForCutoff();
+
 form.addEventListener("submit", async (e) => {
   e.preventDefault();
+
+  // Block submit if cutoff passed
+  if (isRsvpClosed()) {
+    setMsg("⛔ RSVPs are now closed.", "error");
+    return;
+  }
 
   // Honeypot: if filled, silently stop (likely bot)
   const trap = document.getElementById("website")?.value?.trim();
@@ -52,7 +83,7 @@ form.addEventListener("submit", async (e) => {
   };
 
   try {
-    setMsg("Submitting…", "info");
+    setMsg("Submitting...", "info");
 
     const res = await fetch(`${API_BASE}/rsvps`, {
       method: "POST",
@@ -68,6 +99,8 @@ form.addEventListener("submit", async (e) => {
     setMsg(`❌ Could not submit RSVP: ${err.message}`, "error");
     console.error(err);
   } finally {
-    submitBtn.disabled = false;
+    if (!isRsvpClosed()) {
+      submitBtn.disabled = false;
+    }
   }
 });
