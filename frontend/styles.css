@@ -381,3 +381,33 @@ tbody td {
   font-size: 1.35rem;
   font-weight: 800;
 }
+
+.sponsors {
+  background: #8b0000;
+  color: white;
+  padding: 30px 20px;
+  text-align: center;
+}
+
+.sponsor-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.sponsor-column ul {
+  list-style: none;
+  padding: 0;
+}
+
+.sponsor-column li {
+  padding: 6px 0;
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .sponsor-grid {
+    grid-template-columns: 1fr;
+  }
+}
