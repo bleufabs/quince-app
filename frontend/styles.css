@@ -411,3 +411,60 @@ tbody td {
     grid-template-columns: 1fr;
   }
 }
+
+/* ---------- RSVP SECTION ---------- */
+.rsvp {
+  text-align: center;
+  padding: 3rem 1rem;
+  margin: 2rem auto;
+  max-width: 700px;
+  background: rgba(255, 255, 255, 0.75);
+  border: 2px solid #d4af37;
+  border-radius: 1.25rem;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  backdrop-filter: blur(4px);
+}
+
+.rsvp h2 {
+  font-family: 'Great Vibes', cursive;
+  color: #8a6d24;
+  font-size: clamp(2rem, 5vw, 2.6rem);
+  margin-bottom: 0.5rem;
+}
+
+.rsvp p {
+  font-size: 1.1rem;
+  margin-bottom: 1.75rem;
+  color: #223122;
+}
+
+/* ---------- RSVP BUTTON ---------- */
+.rsvp-button {
+  background: linear-gradient(145deg, #6c8b6f, #567457);
+  color: white;
+  border: 2px solid #d4af37;
+  padding: 14px 34px;
+  font-size: 1.15rem;
+  font-weight: bold;
+  border-radius: 999px;
+  cursor: pointer;
+  box-shadow:
+    0 6px 14px rgba(0, 0, 0, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.35);
+  transition: all 0.25s ease;
+}
+
+/* Hover — elegant gold glow */
+.rsvp-button:hover {
+  background: linear-gradient(145deg, #7da882, #628a67);
+  box-shadow:
+    0 0 0 3px rgba(212, 175, 55, 0.25),
+    0 8px 18px rgba(0, 0, 0, 0.18);
+  transform: translateY(-2px);
+}
+
+/* Click */
+.rsvp-button:active {
+  transform: translateY(0);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
