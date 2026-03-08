@@ -396,6 +396,27 @@ tbody td {
   margin-top: 20px;
 }
 
+.sponsor-grid ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sponsor-grid ul {
+  letter-spacing: 0.5px;
+  padding: 10px 0;
+}
+
+.sponsor-grid>div {
+  display: flex;
+  justify-content: center;
+}
+
+.sponsor-grid ul {
+  width: 100%;
+  max-width: 200px;
+}
+
 .sponsor-column ul {
   list-style: none;
   padding: 0;
