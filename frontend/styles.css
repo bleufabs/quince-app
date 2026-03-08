@@ -488,16 +488,8 @@ tbody td {
   padding: 3rem 1rem;
   margin: 2rem auto;
   max-width: 700px;
-  background: rgba(255, 255, 255, 0.75);
   border: none;
   border-radius: 1.25rem;
-}
-
-.rsvp h2 {
-  font-family: 'Great Vibes', cursive;
-  color: #8a6d24;
-  font-size: clamp(2rem, 5vw, 2.6rem);
-  margin-bottom: 0.5rem;
 }
 
 .rsvp p {
