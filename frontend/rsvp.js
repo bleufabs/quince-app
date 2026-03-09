@@ -4,8 +4,8 @@ const form = document.getElementById("rsvpForm");
 const msg = document.getElementById("rsvpMsg");
 
 // 🔒 RSVP cutoff date (Year, Month-1, Day, Hour, Minute)
-const RSVP_CUTOFF = new Date(2026, 3, 20, 23, 59); 
-// April 20, 2026 at 11:59 PM
+const RSVP_CUTOFF = new Date(2026, 3, 18, 23, 59); 
+// April 18, 2026 at 11:59 PM
 
 function setMsg(text, type) {
   msg.textContent = text;
