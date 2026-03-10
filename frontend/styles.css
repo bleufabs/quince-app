@@ -639,7 +639,7 @@ tbody td {
   /* show squiggles on mobile */
   .court::before,
   .court::after {
-    opacity: 0.35;
-    width: 24px;
+    right: 4px;
+    left: 4px;
   }
 }
