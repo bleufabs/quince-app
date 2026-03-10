@@ -612,9 +612,19 @@ tbody td {
 
 /* Mobile */
 @media (max-width: 768px) {
+  .court {
+    padding: 2rem 1rem;
+  }
+
   .court-columns {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, 1fr);
     gap: 1rem;
+    max-width: 100%;
+  }
+
+  .court-columns li {
+    font-size: 1rem;
+    padding: 0.4rem 0;
   }
 
   .court::before,
