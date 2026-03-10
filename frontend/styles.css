@@ -526,3 +526,99 @@ tbody td {
   transform: translateY(0);
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
 }
+
+/* ---------- COURT OF HONOR ---------- */
+.court {
+  position: relative;
+  max-width: 900px;
+  margin: 3rem auto;
+  padding: 2.5rem 2rem;
+  text-align: center;
+  background: rgba(255, 255, 255, 0.78);
+  border-radius: 1.25rem;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  backdrop-filter: blur(4px);
+}
+
+/* Decorative squiggly sides */
+.court::before,
+.court::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 40px;
+  background-repeat: no-repeat;
+  background-size: contain;
+  opacity: 0.5;
+}
+
+/* Left squiggle */
+.court::before {
+  left: -10px;
+  background-image: url("data:image/svg+xml;utf8,\
+  <svg viewBox='0 0 40 800' xmlns='http://www.w3.org/2000/svg'>\
+  <path d='M20 0 Q5 100 20 200 T20 400 T20 600 T20 800' \
+  fill='none' stroke='%23d4af37' stroke-width='8'/>\
+  </svg>");
+}
+
+/* Right squiggle */
+.court::after {
+  right: -30px;
+  background-image: url("data:image/svg+xml;utf8,\
+  <svg viewBox='0 0 40 800' xmlns='http://www.w3.org/2000/svg'>\
+  <path d='M20 0 Q35 100 20 200 T20 400 T20 600 T20 800' \
+  fill='none' stroke='%23d4af37' stroke-width='8'/>\
+  </svg>");
+}
+
+.court h2 {
+  font-family: 'Great Vibes', cursive;
+  font-size: clamp(2rem, 4vw, 2.8rem);
+  color: #8a6d24;
+  margin-bottom: 0.5rem;
+}
+
+.chamberlain {
+  color: #223122;
+  font-size: 1.1rem;
+  margin-bottom: 2rem;
+}
+
+.chamberlain strong {
+  color: #8a6d24;
+}
+
+.court-columns {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 3rem;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.court-columns ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.court-columns li {
+  padding: 0.5rem 0;
+  font-size: 1.15rem;
+  color: #2e3d2e;
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .court-columns {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .court::before,
+  .court::after {
+    display: none;
+  }
+}
