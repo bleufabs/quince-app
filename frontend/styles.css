@@ -631,4 +631,9 @@ tbody td {
   .court::after {
     display: none;
   }
+
+  .chamberlain strong {
+    color: #8a6d24;
+    white-space: nowrap;
+  }
 }
