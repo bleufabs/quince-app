@@ -627,18 +627,19 @@ tbody td {
     padding: 0.4rem 0;
   }
 
-  .court::before,
-  .court::after {
-    display: none;
+  .chamberlain {
+    font-size: clamp(1rem, 2.5vw, 1.1rem);
+    line-height: 1.4;
   }
 
   .chamberlain strong {
-    color: #8a6d24;
     white-space: nowrap;
   }
 
+  /* show squiggles on mobile */
   .court::before,
   .court::after {
-    display: none;
+    opacity: 0.35;
+    width: 24px;
   }
 }
