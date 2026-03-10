@@ -636,4 +636,9 @@ tbody td {
     color: #8a6d24;
     white-space: nowrap;
   }
+
+  .court::before,
+  .court::after {
+    display: none;
+  }
 }
