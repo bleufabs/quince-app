@@ -79,25 +79,28 @@ SQLite
 
 Render (Hosting)
 
-📁 Project Structure
+## 📁 Project Structure
+
+```
 quince-app/
 │
-├── frontend/
-│   ├── index.html
-│   ├── rsvp.html
-│   ├── admin.html
+├── frontend/                # Netlify-hosted static site
+│   ├── index.html           # Home + countdown
+│   ├── rsvp.html            # RSVP form
+│   ├── admin.html           # Admin dashboard
 │   ├── styles.css
 │   ├── rsvp.js
 │   ├── admin.js
 │   └── countdown.js
 │
-├── QuinceBackend/
+├── QuinceBackend/           # ASP.NET backend (Render)
 │   ├── Controllers/
 │   ├── Models/
 │   ├── Data/
 │   └── Program.cs
 │
 └── README.md
+```
 🔐 Admin Security
 
 Administrative routes are protected using a custom request header.
