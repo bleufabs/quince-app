@@ -1,45 +1,62 @@
 🎉 Quince RSVP Application
 
-A full-stack RSVP system built for managing guest attendance for a Quinceañera event.
-Guests can submit RSVPs through a public form, while admins can securely view, export, and manage guest entries.
+A full-stack RSVP management system built to handle guest attendance for a Quinceañera event.
 
-Live Site:
-👉 https://quince-rsvp.netlify.app/
+The application allows guests to submit RSVPs through a public form while providing administrators with secure tools to manage guest responses.
+
+🔗 Live Site:
+https://quince-rsvp.netlify.app/
 
 ✨ Features
-Guest-facing
+Guest Interface
 
 Mobile-friendly RSVP form
 
-Fields for:
+Guests can submit:
 
-Name
+Full name
 
 Phone number
 
 Attendance status
 
-Number of guests
+Number of additional guests
 
-Number of kids
+Number of children
 
 Honeypot spam protection
 
-Real-time countdown to event date
+Live countdown timer to event date
 
-Admin-only
+Elegant event-themed UI
 
-Secure admin access using an API key
+Admin Dashboard
 
-View all RSVPs in a clean table layout
+Secure admin access using API key authentication
+
+View all RSVPs in a structured table
 
 Export guest list as CSV
 
-Delete RSVPs if guests cancel or change plans
+Delete RSVPs if plans change
 
-Phone numbers formatted for readability
+Phone numbers formatted automatically for readability
 
- Tech Stack
+🧠 System Architecture
+
+This project uses a separated frontend and backend architecture.
+
+Frontend (Netlify)
+        ↓
+REST API
+        ↓
+ASP.NET Core Backend
+        ↓
+SQLite Database
+
+The frontend communicates with the backend through a REST API to submit and retrieve RSVP data.
+
+🛠 Tech Stack
 Frontend
 
 HTML
@@ -48,114 +65,141 @@ CSS
 
 Vanilla JavaScript
 
-Hosted on Netlify
+Netlify (Hosting)
 
 Backend
 
-ASP.NET Core Web API (C#)
+ASP.NET Core Web API
+
+C#
 
 Entity Framework Core
 
-SQLite database
+SQLite
 
-Hosted on Render
+Render (Hosting)
 
 📁 Project Structure
 quince-app/
-├── frontend/               # Netlify-hosted static site
-│   ├── index.html          # Home + countdown
-│   ├── rsvp.html           # RSVP form
-│   ├── admin.html          # Admin dashboard
+│
+├── frontend/
+│   ├── index.html
+│   ├── rsvp.html
+│   ├── admin.html
 │   ├── styles.css
 │   ├── rsvp.js
 │   ├── admin.js
 │   └── countdown.js
 │
-├── QuinceBackend/          # ASP.NET backend (Render)
+├── QuinceBackend/
 │   ├── Controllers/
 │   ├── Models/
 │   ├── Data/
 │   └── Program.cs
 │
 └── README.md
-
 🔐 Admin Security
 
-Admin routes are protected using a custom request header:
+Administrative routes are protected using a custom request header.
 
 X-Admin-Key
 
+The key is validated server-side before allowing access to protected endpoints.
 
-The key is validated server-side
-
-Admin-only endpoints:
-
+Protected Endpoints
 GET /api/rsvps/admin
-
 DELETE /api/rsvps/{id}
-
 🌐 API Endpoints
 Public
 
-POST /api/rsvps
 Submit a new RSVP
 
+POST /api/rsvps
 Admin
 
+Retrieve all RSVPs
+
 GET /api/rsvps/admin
-Retrieve all RSVPs (admin key required)
+
+Delete an RSVP
 
 DELETE /api/rsvps/{id}
-Delete an RSVP by ID (admin key required)
-
 🚀 Deployment
 Frontend (Netlify)
 
-Base directory: frontend
+Configuration
 
+Base directory: frontend
 Publish directory: .
 
-Auto-deploys from main branch
+Auto-deploys from the main branch.
 
 Backend (Render)
 
-Connected to GitHub repo
+Connected to the GitHub repository with automatic deployment.
 
-Auto-deploy enabled on main
-
-Environment variable required:
+Required environment variable:
 
 ADMIN_KEY=your-secret-key
-
 🧪 Local Development
-Frontend
-
-Simply open:
-
-frontend/index.html
-
-
-or use a local server.
-
-Backend
+Run Backend
 cd QuinceBackend
 dotnet restore
 dotnet run
+Run Frontend
 
-📌 Future Improvements
+Open:
 
-RSVP status updates (instead of delete)
+frontend/index.html
 
-Admin search and filters
+or use a local web server.
 
-Soft-delete / undo delete
+🔮 Future Improvements (Planned v2)
 
-SMS confirmation (Twilio)
+This project currently supports a single event, but future versions may expand the platform into a reusable event management system.
 
-Multiple event support
+Possible improvements include:
 
-👤 Author
+Multi-Event Support
+
+Allow the system to manage RSVPs for multiple events such as:
+
+Quinceañeras
+
+Weddings
+
+Birthdays
+
+Family gatherings
+
+This would likely involve adding an Event model and linking RSVPs to a specific event.
+
+Photo Gallery
+
+Allow guests to upload photos taken during the event.
+
+Potential features:
+
+Guest photo uploads
+
+Shared photo gallery for attendees
+
+Ability to download event photos
+
+Moderation tools for admins
+
+Possible storage solutions:
+
+Dropbox API
+
+Cloud storage providers
+
+External file hosting services
+
+👨‍💻 Author
 
 Fabian Segura
 Aspiring Backend / Full-Stack Developer
-GitHub: https://github.com/bleufabs
+
+GitHub
+https://github.com/bleufabs
